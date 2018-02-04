@@ -6,12 +6,16 @@ Non-typical Maven usage infrastructure and projects
   * Docker Compose (tested with 1.12.0)
 
 ## Usage
-  Start the containsers from the project folder:
+  Start the containers from the project folder:
   
-    docker-compose up -d
+    docker-compose up -d --build
   
   To get the Nexus 3 HTTP port, mapped to the localhost use the command:
   
     docker-compose port nexus 8081
 
   Then target your browser to the printed port. Username/password - admin/admin123.
+  
+  To use the configured client for the infrastructure, start the Bash inside the Docker container:
+  
+    docker-compose run --rm repo-client bash 
