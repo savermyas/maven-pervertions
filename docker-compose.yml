@@ -10,5 +10,9 @@ services:
             - "8081"
         volumes:
             - nexus-data:/nexus-data
+    repo-client:
+        container_name: client
+        image: repo-client
+        build: repo-client
 volumes:
     nexus-data:

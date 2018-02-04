@@ -14,4 +14,4 @@ Non-typical Maven usage infrastructure and projects
   
     docker-compose port nexus 8081
 
-  Then target your browser to the printed port.
+  Then target your browser to the printed port. Username/password - admin/admin123.
