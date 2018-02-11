@@ -15,5 +15,7 @@ services:
         container_name: client
         image: repo-client
         build: repo-client
+        volumes:
+            - ./projects:/root/projects
 volumes:
     nexus-data:
