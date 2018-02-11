@@ -17,5 +17,7 @@ services:
         build: repo-client
         volumes:
             - ./projects:/root/projects
+            - maven-repo:/root/.m2/repository
 volumes:
     nexus-data:
+    maven-repo:
