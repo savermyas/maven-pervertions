@@ -5,11 +5,16 @@ Non-typical Maven usage infrastructure and projects
   * Docker (tested with 17.12.0-ce)
   * Docker Compose (tested with 1.12.0)
 
-## Usage
+## Getting started
   Start the containers from the project folder:
   
     docker-compose up -d --build
   
+  If you are running the containers in the first time, it is worth to create a hosted PyPi repo. You may do it using the following command:
+
+    docker-compose exec nexus /tmp/pypi-init.sh
+  
+## Usage
   To get the Nexus 3 HTTP port, mapped to the localhost use the command:
   
     docker-compose port nexus 8081

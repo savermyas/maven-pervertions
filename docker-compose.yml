@@ -3,7 +3,8 @@ version: '2'
 services:
     nexus:
         container_name: nexus
-        image: sonatype/nexus3
+        image: nexus3-pypi
+        build: nexus3-pypi
         ports:
             - "8081"
         expose:
