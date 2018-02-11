@@ -12,4 +12,107 @@
     <artifactId>python-parent</artifactId>
     <version>0.0.1</version>
     <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/python</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- Copy resource files to Python build directory with property rewriting.
+                     To enable bind <id>python-resources</id> to <phase>process-resources</phase>. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <executions>
+                        <execution>
+                            <id>python-resources</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>1.6</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-all</artifactId>
+                            <version>2.4.12</version>
+                            <scope>runtime</scope>
+                        </dependency>
+                        <dependency>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-classic</artifactId>
+                            <version>1.0.13</version>
+                            <scope>runtime</scope>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>python-virtualenv</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>execute</goal>
+                            </goals>
+                            <configuration>
+                                <properties>
+                                    <property>
+                                        <name>workingDirectory</name>
+                                        <value>${project.build.directory}</value>
+                                    </property>
+                                </properties>
+                                <scripts>
+                                    <script>
+                                        <![CDATA[
+def exec(cmd) {
+  println cmd
+  def process = new ProcessBuilder([ "sh", "-c", cmd])
+                                    .directory(new File(workingDirectory))
+                                    .redirectErrorStream(true)
+                                    .start()
+  process.outputStream.close()
+  process.inputStream.eachLine {println it}
+  process.waitFor();
+  return process.exitValue()
+}
+
+[
+  "pwd",
+  "ls -lah",
+  "virtualenv venv",
+  "source venv/bin/activate",
+  "pip freeze"
+].each {
+  exec(it)
+}
+]]>
+                                    </script>
+                                </scripts>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+    </build>
 </project>
