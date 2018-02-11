@@ -32,12 +32,42 @@ Non-typical Maven usage infrastructure and projects
     
 ## Scenario
 
-  Deploy the parent project to Nexus 3 Maven repo:
+  Deploy the parent and archetype projects to Nexus 3 Maven repo:
   
     docker-compose run --rm repo-client mvn -f /root/projects/parent/pom.xml deploy
+    docker-compose run --rm repo-client mvn -f /root/projects/python-parent/pom.xml deploy
+    docker-compose run --rm repo-client mvn -f /root/projects/python-archetype/pom.xml deploy
     
   Deploy the Java Hello World application to Nexus 3 Maven repo:
     
     docker-compose run --rm repo-client mvn -f /root/projects/java-hello/pom.xml deploy
+    
+  Create a Maven-wrapped Python project from the archetype:
+  
+    docker-compose run --rm repo-client mvn archetype:generate \
+                                            -DarchetypeGroupId=com.griddynamics.techtalk \
+                                            -DarchetypeArtifactId=python-archetype \
+                                            -DarchetypeVersion=0.0.1 \
+                                            -DgroupId=com.griddynamics.techtalk \
+                                            -DartifactId=mypython \
+                                            -Dversion=1.0-SNAPSHOT \
+                                            -DinteractiveMode=false
+  
+  Or local scenario to run inside the container without deployment of artifacts (for development purposes):
+  
+    cd /root/projects
+    rm -rf /root/projects/mypython
+    mvn -f /root/projects/parent/pom.xml clean install
+    mvn -f /root/projects/python-parent/pom.xml clean install
+    mvn -f /root/projects/python-archetype/pom.xml clean install
+    mvn archetype:generate -DarchetypeGroupId=com.griddynamics.techtalk \
+                           -DarchetypeArtifactId=python-archetype \
+                           -DarchetypeVersion=0.0.1 \
+                           -DgroupId=com.griddynamics.techtalk \
+                           -DartifactId=mypython \
+                           -Dversion=1.0-SNAPSHOT \
+                           -DinteractiveMode=false
+    
+    mvn -f /root/projects/mypython/pom.xml clean package
     
   
