@@ -8,7 +8,7 @@ Non-typical Maven usage infrastructure and projects
 ## Getting started
   Start the containers from the project folder:
   
-    docker-compose up -d --build
+    docker-compose up -d nexus
   
   If you are running the containers in the first time, it is worth to create a hosted PyPi repo. You may do it using the following command:
 
@@ -23,4 +23,4 @@ Non-typical Maven usage infrastructure and projects
   
   To use the configured client for the infrastructure, start the Bash inside the Docker container:
   
-    docker-compose run --rm repo-client bash 
+    docker-compose run --rm repo-client bash
