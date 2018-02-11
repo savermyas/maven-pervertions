@@ -1,0 +1,12 @@
+<archetype xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0 http://maven.apache.org/xsd/archetype-1.0.0.xsd">
+  <id>python-archetype</id>
+  <resources>
+    <resource>src/main/python/package/__init__.py</resource>
+    <resource>src/main/python/package/main.py</resource>
+    <resource>src/main/python/package/test/__init__.py</resource>
+    <resource>src/main/python/package/test/test_main.py</resource>
+    <resource>src/main/python/README</resource>
+    <resource>src/main/python/setup.py</resource>
+  </resources>
+</archetype>

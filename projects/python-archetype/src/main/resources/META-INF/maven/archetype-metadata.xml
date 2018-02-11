@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="python-archetype">
+    <fileSets>
+        <fileSet filtered="false" packaged="false">
+            <directory>src/main/python</directory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</archetype-descriptor>
