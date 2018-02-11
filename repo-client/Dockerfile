@@ -5,4 +5,3 @@ RUN yum -y install maven curl && \
     python get-pip.py && \
     pip install -r /tmp/requirements.txt
 COPY .m2 /root/.m2
-COPY projects /root/projects
