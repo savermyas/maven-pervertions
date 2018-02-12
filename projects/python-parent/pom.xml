@@ -69,7 +69,7 @@
                     <executions>
                         <execution>
                             <id>python-virtualenv</id>
-                            <phase>initialize</phase>
+                            <phase>none</phase>
                             <goals>
                                 <goal>execute</goal>
                             </goals>
@@ -83,28 +83,64 @@
                                 <scripts>
                                     <script>
                                         <![CDATA[
-def exec(cmd) {
-  println cmd
-  def process = new ProcessBuilder([ "sh", "-c", cmd])
-                                    .directory(new File(workingDirectory))
-                                    .redirectErrorStream(true)
-                                    .start()
-  process.outputStream.close()
-  process.inputStream.eachLine {println it}
-  process.waitFor();
-  return process.exitValue()
-}
+                                            def exec(cmd) {
+                                                println cmd
+                                                def process = new ProcessBuilder([ "sh", "-c", cmd])
+                                                    .directory(new File(workingDirectory))
+                                                    .redirectErrorStream(true)
+                                                    .start()
+                                                process.outputStream.close()
+                                                process.inputStream.eachLine {println it}
+                                                process.waitFor();
+                                                return process.exitValue()
+                                            }
+                                            [
+                                                "virtualenv venv",
+                                                "source venv/bin/activate",
+                                                "pip install -r requirements.txt"
+                                            ].each {
+                                                 exec(it)
+                                            }
+                                        ]]>
+                                    </script>
+                                </scripts>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>python-package</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>execute</goal>
+                            </goals>
+                            <configuration>
+                                <properties>
+                                    <property>
+                                        <name>workingDirectory</name>
+                                        <value>${project.build.directory}</value>
+                                    </property>
+                                </properties>
+                                <scripts>
+                                    <script>
+                                        <![CDATA[
+                                            def exec(cmd) {
+                                                println cmd
+                                                def process = new ProcessBuilder([ "sh", "-c", cmd])
+                                                    .directory(new File(workingDirectory))
+                                                    .redirectErrorStream(true)
+                                                    .start()
+                                                process.outputStream.close()
+                                                process.inputStream.eachLine {println it}
+                                                process.waitFor();
+                                                return process.exitValue()
+                                            }
 
-[
-  "pwd",
-  "ls -lah",
-  "virtualenv venv",
-  "source venv/bin/activate",
-  "pip freeze"
-].each {
-  exec(it)
-}
-]]>
+                                            [
+                                                "source venv/bin/activate",
+                                                "python setup.py sdist"
+                                            ].each {
+                                                 exec(it)
+                                            }
+                                        ]]>
                                     </script>
                                 </scripts>
                             </configuration>
