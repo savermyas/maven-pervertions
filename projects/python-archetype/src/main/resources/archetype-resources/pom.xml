@@ -30,6 +30,10 @@
             <id>python-virtualenv</id>
             <phase>compile</phase>
           </execution>
+          <execution>
+            <id>python-package</id>
+            <phase>package</phase>
+          </execution>
         </executions>
       </plugin>
     </plugins>
