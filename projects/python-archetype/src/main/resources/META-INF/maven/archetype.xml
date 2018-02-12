@@ -8,5 +8,6 @@
     <resource>src/main/python/package/test/test_main.py</resource>
     <resource>src/main/python/README</resource>
     <resource>src/main/python/setup.py</resource>
+    <resource>src/main/python/requirements.txty</resource>
   </resources>
 </archetype>
