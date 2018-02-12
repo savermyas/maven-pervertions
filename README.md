@@ -70,4 +70,7 @@ Non-typical Maven usage infrastructure and projects
     
     mvn -f /root/projects/mypython/pom.xml clean package
     
-  
+## Links
+
+  * [Python setuptools usage](http://setuptools.readthedocs.io/en/latest/setuptools.html)
+  * [Python project structure](http://docs.python-guide.org/en/latest/writing/structure/)
