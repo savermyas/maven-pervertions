@@ -34,6 +34,10 @@
             <id>python-package</id>
             <phase>package</phase>
           </execution>
+          <execution>
+            <id>python-deploy</id>
+            <phase>deploy</phase>
+          </execution>
         </executions>
       </plugin>
     </plugins>

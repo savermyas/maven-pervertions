@@ -15,6 +15,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <pypi.repo>local</pypi.repo>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <build>
 
@@ -145,6 +147,50 @@
                                 </scripts>
                             </configuration>
                         </execution>
+                        <execution>
+                            <id>python-deploy</id>
+                            <phase>none</phase>
+                            <goals>
+                                <goal>execute</goal>
+                            </goals>
+                            <configuration>
+                                <properties>
+                                    <property>
+                                        <name>workingDirectory</name>
+                                        <value>${project.build.directory}</value>
+                                    </property>
+                                    <property>
+                                        <name>pypiRepo</name>
+                                        <value>${pypi.repo}</value>
+                                    </property>
+                                </properties>
+                                <scripts>
+                                    <script>
+                                        <![CDATA[
+                                            def exec(cmd) {
+                                                println cmd
+                                                def process = new ProcessBuilder([ "sh", "-c", cmd])
+                                                    .directory(new File(workingDirectory))
+                                                    .redirectErrorStream(true)
+                                                    .start()
+                                                process.outputStream.close()
+                                                process.inputStream.eachLine {println it}
+                                                process.waitFor();
+                                                return process.exitValue()
+                                            }
+
+                                            [
+                                                "source venv/bin/activate",
+                                                "twine upload dist/*"
+                                            ].each {
+                                                 exec(it)
+                                            }
+                                        ]]>
+                                    </script>
+                                </scripts>
+                            </configuration>
+                        </execution>
+
                     </executions>
                 </plugin>
             </plugins>
