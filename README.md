@@ -55,6 +55,8 @@ Non-typical Maven usage infrastructure and projects
   
   Or local scenario to run inside the container without deployment of artifacts (for development purposes):
   
+    docker-compose run --rm repo-client bash
+  
     cd /root/projects
     rm -rf /root/projects/mypython
     mvn -f /root/projects/parent/pom.xml clean install
@@ -67,8 +69,8 @@ Non-typical Maven usage infrastructure and projects
                            -DartifactId=mypython \
                            -Dversion=1.0-SNAPSHOT \
                            -DinteractiveMode=false
-    
-    mvn -f /root/projects/mypython/pom.xml clean package
+    cd /root/projects/mypython
+    mvn deploy
     
 ## Links
 
