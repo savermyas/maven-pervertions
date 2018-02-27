@@ -3,7 +3,7 @@
   <id>python-archetype</id>
   <resources>
     <resource>src/main/python/package/__init__.py</resource>
-    <resource>src/main/python/package/main.py</resource>
+    <resource>src/main/python/package/__main__.py</resource>
     <resource>src/main/python/package/test/__init__.py</resource>
     <resource>src/main/python/package/test/test_main.py</resource>
     <resource>src/main/python/README</resource>
