@@ -14,6 +14,10 @@ Non-typical Maven usage infrastructure and projects
   a hosted PyPi repo. You may do it using the following command:
 
     docker-compose exec nexus /tmp/pypi-init.sh
+    
+  If you want to reproduce clean Nexus start after is has been initialized, use the following command:
+  
+    docker-compose down -v nexus
   
 ## Usage
 
@@ -52,6 +56,19 @@ Non-typical Maven usage infrastructure and projects
                                             -DartifactId=mypython \
                                             -Dversion=1.0-SNAPSHOT \
                                             -DinteractiveMode=false
+  
+  Move the project files to archetype-based skeleton:
+  
+    docker-compose run --rm repo-client rm -rf /root/projects/mypython/src/main/python
+    docker-compose run --rm repo-client cp -r /root/projects/python-hello /root/projects/mypython/src/main/python
+    
+  Deploy the Maven-wrapped Python project:
+  
+    docker-compose run --rm repo-client mvn -f /root/projects/mypython/pom.xml clean package deploy
+
+  Run the complex project:
+  
+    docker-compose run --rm repo-client mvn -f /root/projects/complex-hello/pom.xml gplus:execute
   
   Or local scenario to run inside the container without deployment of artifacts (for development purposes):
   
