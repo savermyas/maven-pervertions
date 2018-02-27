@@ -6,3 +6,4 @@ RUN yum -y install maven curl && \
     pip install -r /tmp/requirements.txt
 COPY .m2 /root/.m2
 COPY .pypirc /root/.pypirc
+COPY pip.conf /root/.pip/pip.conf
