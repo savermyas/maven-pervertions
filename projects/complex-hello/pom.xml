@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.griddynamics.techtalk</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1</version>
+        <relativePath/>
+    </parent>
+    <artifactId>complex-hello</artifactId>
+    <packaging>jar</packaging>
+    <version>0.0.1</version>
+    <name>complex-hello</name>
+    <url>https://github.com/savermyas/maven-pervertions</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.6</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>2.4.12</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>1.0.13</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>python-run</id>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <properties>
+                        <property>
+                            <name>workingDirectory</name>
+                            <value>${project.build.directory}</value>
+                        </property>
+                        <property>
+                            <name>pypiRepo</name>
+                            <value>${pypi.repo}</value>
+                        </property>
+                    </properties>
+                    <scripts>
+                        <script>
+                            <![CDATA[
+                                def exec(cmd) {
+                                  println cmd
+                                  def process = new ProcessBuilder([ "sh", "-c", cmd])
+                                      .directory(new File(workingDirectory))
+                                      .redirectErrorStream(true)
+                                      .start()
+                                  process.outputStream.close()
+                                  process.inputStream.eachLine {println it}
+                                  process.waitFor();
+                                  return process.exitValue()
+                                }
+                                [
+                                  "virtualenv venv",
+                                  "source venv/bin/activate",
+                                  "pip install --extra-index-url http://nexus:8081/repository/pypi/packages --trusted-host nexus HiJava==0.1",
+                                  "python -m hijava"
+                                ].each {
+                                  exec(it)
+                                }
+                                ]]>
+                        </script>
+                    </scripts>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <stripVersion>true</stripVersion>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.griddynamics.techtalk</groupId>
+                            <artifactId>java-hello</artifactId>
+                            <version>0.0.1</version>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.griddynamics.techtalk</groupId>
+            <artifactId>java-hello</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
+</project>
